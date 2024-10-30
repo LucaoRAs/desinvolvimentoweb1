@@ -90,7 +90,7 @@ public class PessoaDao {
 		RetornoDao retornoDao = new RetornoDao();
 		
 		try {
-			String sql = "UPDATE pessoa SET" +" nome = ?, telefone = ?," + "email = ? , cidade = ?," + "endereco = ? , cep = ?";
+			String sql = "UPDATE pessoa SET" +" nome = ?, telefone = ?," + "email = ? , cidade = ?," + "endereco = ? , cep = ?" + "WHERE = ?";
 			PreparedStatement prep = con.getConnection().prepareStatement(sql);
 			prep.setString(1, p.getNome());
 			prep.setString(2, p.getTelefone());
