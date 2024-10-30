@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Cadastro</h1>
+	<div id="resposta"></div>
+	
+	<script type="text/javascript">
+		document.getElementById("resposta").innerHTML = "aguarde... carregando..."
+		
+		fetch("../MarcaAPI")
+			.then(resp => resp.json())
+			.then(dados => mostrar(dados));
+		
+		function mostrar(dados) {
+			var tab = "<table>";
+			for (i in dados) {
+				tab += "<tr>"
+					+ "<td>" + dados[i].id + "</td>"
+					+ "<td>" + dados[i].nome + "</td>"
+					+ "<td>" + dados[i].descricao + "</td>"
+					+ "</tr>"
+			}
+			tab += "</table>";
+			document.getElementById("resposta").innerHTML = tab;
+		}
+		
+	</script>
+</body>
+</html>
