@@ -31,10 +31,10 @@ public class MarcaAPI extends HttpServlet {
 
         String resposta;
         if (id == 0) {
-            // Listar todas as marcas
+            // Listar marca
             resposta = gson.toJson(mdao.listar());
         } else {
-            // Consultar uma marca específica
+            // Consulta marca
             resposta = gson.toJson(mdao.consultar(id));
         }
 
