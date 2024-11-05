@@ -90,7 +90,7 @@ public class PessoaDao {
 		RetornoDao retornoDao = new RetornoDao();
 		
 		try {
-			String sql = "UPDATE pessoa SET" +" nome = ?, telefone = ?," + "email = ? , cidade = ?," + "endereco = ? , cep = ?" + "WHERE = ?";
+			String sql = "UPDATE pessoa SET nome = ?, telefone = ?, email = ? , cidade = ?,endereco = ? ,cep = ? WHERE = idpessoa" ;
 			PreparedStatement prep = con.getConnection().prepareStatement(sql);
 			prep.setString(1, p.getNome());
 			prep.setString(2, p.getTelefone());
@@ -99,6 +99,7 @@ public class PessoaDao {
 			prep.setString(5, p.getEndereco());
 			prep.setString(6, p.getCep());
 			prep.setInt(7, p.getIdpessoa());
+			System.out.println(prep.toString());
 			prep.execute();
 			
 			String mensagem = "Alterado com sucesso!";

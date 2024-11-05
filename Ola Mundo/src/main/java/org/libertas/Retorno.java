@@ -26,8 +26,6 @@ public class Retorno {
 	public Retorno(boolean resposta, String mensagem) {
 		this.resposta = resposta;
 		this.mensagem = mensagem;
-		
-		
 	}
 	
 
