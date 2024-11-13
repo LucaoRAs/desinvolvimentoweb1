@@ -8,7 +8,7 @@ rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bR
 </head>
 <body>
 	<h1>Cadastro</h1>
-	<button type="button" class="btn btn-primary" onclick="novo()">Novo</button>
+	<button type="button" class="btn btn-primary" onclick = "novo()">novo</button>
 	<div id="resposta"></div>
 	
 	<div class="modal" id="formulario" tabindex="-1">
@@ -40,7 +40,7 @@ rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bR
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-	        <button type="button" class="btn btn-primary" onclick="salvar()">Salvar</button>
+	        <button type="button" class="btn btn-primary" onclick = "salvar()">Salvar</button>
 	      </div>
 	    </div>
 	  </div>
@@ -75,17 +75,41 @@ rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bR
 						+ "<td>" + dados[i].telefone + "</td>"
 						+ "<td>" + dados[i].email + "</td>"
 						+ "<td>" + dados[i].cidade + "</td>"
+						+ "<td>"
+						+ "<a href='#' onclick='alterar("+dados[i].idpessoa +")'><img src='images/edit.svg' >"
+						+ "<a href='#' onclick='excluir("+dados[i].idpessoa +")'><img src='images/trash.svg' >"
+						+ "</td>"
 						+ "</tr>"
 				}
 				tab += "</table>";
 				document.getElementById("resposta").innerHTML = tab;
 		}
 		}
+		function alterar(idpessoa){
+			alert("alterando" + idpessoa);
+			
+			
+		}
+		
+		function excluir(idpessoa){
+			fetch("../PessoaAPI/" + idpessoa,
+					{method:"DELETE"}
+				).then(resp => resp.json())
+				.then(function (resposta){
+					alert(resposta.mensagem);
+					listar();
+				});
+		}
 		
 		function novo() {
+			document.getElementbyId("nome").value="";
+			document.getElementbyId("telefone").value="";
+			document.getElementbyId("email").value="";
+			document.getElementbyId("cidade").value="";
 			modal.show(); 
 		}
-		function salvar() {
+		function salvar(){
+			//pega os valores digitados pelo usuario
 			let pessoa = {};
 			pessoa.nome = document.getElementById("nome").value;
 			pessoa.telefone = document.getElementById("telefone").value;
@@ -93,15 +117,18 @@ rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bR
 			pessoa.cidade = document.getElementById("cidade").value;
 			
 			let body = JSON.stringify(pessoa);
-			fetch("../PessoaAPI",
-					{method: "POST", body: body}
-				).then(function (resposta) {
-					alert(resposta.mensagem);
-					modal.hide();
-					listar();
-				});
+			
+			fetch("../PessoaAPI", 
+					{method:"POST", body: body}		
+				).then(resp => resp.json())
+			.then(function (resposta){
+				alert(resposta.mesagem);
+				modal.hide();
+				listar();
+			});
+			
 		}
 	</script>
-
+	
 </body>
 </html>
