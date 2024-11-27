@@ -1,134 +1,236 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="ISO-8859-1">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
 <title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
 	<h1>Cadastro</h1>
-	<button type="button" class="btn btn-primary" onclick = "novo()">novo</button>
-	<div id="resposta"></div>
-	
-	<div class="modal" id="formulario" tabindex="-1">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h1 class="modal-title" id="exampleModalLabel">Cadastros de Pessoa</h1>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <div class="modal-body">
-	      
-		        <div class="input-group mb-3">
-				  <span class="input-group-text" id="basic-addon1">Nome</span>
-				  <input id="nome" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-				</div>
-				<div class="input-group mb-3">
-				  <span class="input-group-text" id="basic-addon1">Telefone</span>
-				  <input id="telefone" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-				</div>
-				<div class="input-group mb-3">
-				  <span class="input-group-text" id="basic-addon1">E-mail</span>
-				  <input id="email" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-				</div>
-				<div class="input-group mb-3">
-				  <span class="input-group-text" id="basic-addon1">Cidade</span>
-				  <input id="cidade" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-				</div>
-				
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-	        <button type="button" class="btn btn-primary" onclick = "salvar()">Salvar</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-	
-	
-	<script>
-	
-		const modal = new bootstrap.Modal('#formulario');
-		listar();
+	<div class="input-group mb-3">
+		<button type="button" class="btn btn-primary" onclick="novo()">Novo</button>
 		
-		function listar() {
-			document.getElementById("resposta").innerHTML = "aguarde... carregando..."
+		<input type="text" class="form-control"
+			placeholder="Pesquisa" aria-label="Pesquisa"
+			aria-describedby="button-addon2" id="pesquisa">
+		<button class="btn btn-outline-secondary" type="button"
+			id="button-addon2" onclick="listar()">Pesquisa</button>
+	</div>
+
+	<div id="resposta"></div>
+
+
+	<div class="modal fade" id="formulario" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Cadastro
+						de Pessoa</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="inputGroup-sizing-default">Nome:</span>
+						<input id="nome" type="text" class="form-control"
+							aria-label="Sizing example input"
+							aria-describedby="inputGroup-sizing-default">
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="inputGroup-sizing-default">Telefone:</span>
+						<input id="telefone" type="text" class="form-control"
+							aria-label="Sizing example input"
+							aria-describedby="inputGroup-sizing-default">
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="inputGroup-sizing-default">E-mail:</span>
+						<input id="email" type="text" class="form-control"
+							aria-label="Sizing example input"
+							aria-describedby="inputGroup-sizing-default">
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text" id="inputGroup-sizing-default">Cidade:</span>
+						<input id="cidade" type="text" class="form-control"
+							aria-label="Sizing example input"
+							aria-describedby="inputGroup-sizing-default">
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" onclick="salvar()">Salvar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="excluir" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Excluir
+						Pessoa</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">Confirmar a Exclusao do registro</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Não</button>
+					<button type="button" class="btn btn-primary"
+						onclick="excluirsim()">Excluir</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+
+	<script>
+		//Carregar o formulario
+		const modal = new bootstrap.Modal('#formulario')
+		const modalexcluir = new bootstrap.Modal('#excluir')
+		listar();
+		//variavel para salvar o id
+		var idatual = 0;
+		
+		function listar(){
+			document.getElementById("resposta").innerHTML = "aguarde...carregando...";
 			
-			fetch("../PessoaAPI")
+			let pesquisa = document.getElementById("pesquisa").value;
+			
+			
+			fetch("../PessoaAPI?pesquisa=" + pesquisa)
 				.then(resp => resp.json())
 				.then(dados => mostrar(dados));
-			
-			function mostrar(dados) {
-				var tab = "<table class = 'table table-hover'>"
-								+"<th>id</th>"
-								+"<th>nome</th>"
-								+"<th>telefone</th>"
-								+"<th>email</th>"
-								+"<th>cidade</th>";
-				for (i in dados) {
-					tab += "<tr>"
-						+ "<td>" + dados[i].idpessoa + "</td>"
-						+ "<td>" + dados[i].nome + "</td>"
-						+ "<td>" + dados[i].telefone + "</td>"
-						+ "<td>" + dados[i].email + "</td>"
-						+ "<td>" + dados[i].cidade + "</td>"
-						+ "<td>"
-						+ "<a href='#' onclick='alterar("+dados[i].idpessoa +")'><img src='images/edit.svg' >"
-						+ "<a href='#' onclick='excluir("+dados[i].idpessoa +")'><img src='images/trash.svg' >"
-						+ "</td>"
-						+ "</tr>"
+		
+			function mostrar(dados){
+				var tab = "<table class='table table-hover'>"
+							+ "<th>ID</th>"
+							+ "<th>Nome</th>"
+							+ "<th>Telefone</th>"
+							+ "<th>E-mail</th>"
+							+ "<th>Cidade</th>"
+							+ "<th></th>";
+							
+				for (i in dados){
+					tab += "<tr>" + "<td>" + dados[i].idpessoa + "</td>"
+					+ "<td>" + dados[i].nome + "</td>"
+					+ "<td>" + dados[i].telefone + "</td>"
+					+ "<td>" + dados[i].email + "</td>"
+					+ "<td>" + dados[i].cidade + "</td>"
+					+"<td>"
+					+"<a href='#' onclick='alterar("+ dados[i].idpessoa+")'><img src='images/edit.svg'>"
+					+"<a href='#' onclick='excluir("+ dados[i].idpessoa+")'><img src='images/trash.svg'>"
+					+"</td>"
+					+ "</tr>";
 				}
+		
 				tab += "</table>";
-				document.getElementById("resposta").innerHTML = tab;
-		}
-		}
-		function alterar(idpessoa){
-			alert("alterando" + idpessoa);
-			
-			
+				document.getElementById("resposta").innerHTML = tab;	
+			}
 		}
 		
-		function excluir(idpessoa){
-			fetch("../PessoaAPI/" + idpessoa,
-					{method:"DELETE"}
-				).then(resp => resp.json())
-				.then(function (resposta){
-					alert(resposta.mensagem);
-					listar();
-				});
+		function novo(){
+			//garantir qua nao vai alterar um registro anterior
+			idatual = -1;
+			//chama a função que mostra o formulario
+			//limpar os valores do campo
+			
+			document.getElementById("nome").value = "";
+			document.getElementById("telefone").value = "";
+			document.getElementById("email").value  = "";
+			document.getElementById("cidade").value  = "";
+			modal.show();
 		}
 		
-		function novo() {
-			document.getElementbyId("nome").value="";
-			document.getElementbyId("telefone").value="";
-			document.getElementbyId("email").value="";
-			document.getElementbyId("cidade").value="";
-			modal.show(); 
-		}
 		function salvar(){
-			//pega os valores digitados pelo usuario
+			//pega os valores digitados no campo
 			let pessoa = {};
 			pessoa.nome = document.getElementById("nome").value;
 			pessoa.telefone = document.getElementById("telefone").value;
 			pessoa.email = document.getElementById("email").value;
 			pessoa.cidade = document.getElementById("cidade").value;
 			
+			//transforma o objeto pessoa em JSON
 			let body = JSON.stringify(pessoa);
 			
-			fetch("../PessoaAPI", 
-					{method:"POST", body: body}		
-				).then(resp => resp.json())
+			let endereco = "../PessoaAPI";
+			let metodo = "POST";
+			
+			
+			//verificaçao se é alteração ou novo cadastro 
+			if (idatual > 0){
+				endereco = "../PessoaAPI/" + idatual;
+				metodo = "PUT";
+			}
+			
+			//faz a requisição da API para inserir o JSON na lista 
+			fetch(endereco, 
+				{method: metodo, body: body}		
+			).then(resp => resp.json())
 			.then(function (resposta){
-				alert(resposta.mesagem);
-				modal.hide();
+				alert(resposta.mensagem);
+				//fecha o formulario
+				modal.hide()
+				//chama a função listar para recarregar a lista
 				listar();
 			});
 			
 		}
+		
+		function alterar(idpessoa){
+			idatual = idpessoa;
+			fetch("../PessoaAPI/"+ idpessoa)	
+				.then(resp => resp.json())
+				.then(function (resposta){
+					document.getElementById("nome").value = resposta.nome;
+					document.getElementById("telefone").value = resposta.telefone;
+					document.getElementById("email").value  = resposta.email;
+					document.getElementById("cidade").value  = resposta.cidade;
+					
+					modal.show();
+				});
+		}
+		
+		function excluir(idpessoa){
+			//recebe o id para a variavel global
+			idatual = idpessoa;
+			//exibe o modal
+			modalexcluir.show();
+			
+		}
+		
+		function excluirsim(){
+			//requisiçao para chamar API alterar
+			//chama a API passando o id
+			fetch("../PessoaAPI/" + idatual,
+					{method: "DELETE"}
+			).then(resp => resp.json())
+			.then(function (resposta){
+				alert(resposta.mensagem);
+				//esconde o modal
+				modalexcluir.hide();
+				//lista as funçoes ovamente
+				listar();
+			});
+		}
+
 	</script>
-	
+
+
 </body>
 </html>

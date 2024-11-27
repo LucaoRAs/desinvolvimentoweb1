@@ -11,7 +11,7 @@ public class PessoaDao {
 	public void salvar(Pessoa p) {
 		if (p.getIdpessoa()>0) {
 			alterar(p);
-		} else {
+		}else {
 			inserir(p);
 		}
 	}
@@ -56,14 +56,18 @@ public class PessoaDao {
 			return retorno;
 		}
 	}
-	public LinkedList<Pessoa> listar() {
+	public LinkedList<Pessoa> listar(String pesquisa) {
 		//return lista;
 		LinkedList<Pessoa> lista = new LinkedList<Pessoa>();
 		Conexao con = new Conexao();
 		try {
-			String sql = "SELECT * FROM pessoa";
-			Statement sta = con.getConnection().createStatement();
-			ResultSet res = sta.executeQuery(sql);
+			String sql = "SELECT * FROM pessoa "
+					+ "WHERE nome like ? "
+					+ "ORDER BY nome";
+			PreparedStatement sta = con.getConnection().prepareStatement(sql);
+			sta.setString(1,  "%" + pesquisa + "%");
+			
+			ResultSet res = sta.executeQuery();
 			while (res.next()) {
 				Pessoa p = new Pessoa();
 				p.setIdpessoa(res.getInt("idpessoa"));
@@ -80,8 +84,6 @@ public class PessoaDao {
 		}
 		con.desconecta();
 		return lista;
-		
-				
 	}
 	
 	public Retorno alterar(Pessoa p) {
@@ -90,7 +92,11 @@ public class PessoaDao {
 		RetornoDao retornoDao = new RetornoDao();
 		
 		try {
-			String sql = "UPDATE pessoa SET nome = ?, telefone = ?, email = ? , cidade = ?,endereco = ? ,cep = ?, WHERE =idpessoa " ;
+			String sql = "UPDATE pessoa SET"
+					+" nome = ?, telefone = ?," 
+					+ "email = ? , cidade = ?,"
+					+ "endereco = ? , cep = ? "
+					+ "WHERE idpessoa = ?";
 			PreparedStatement prep = con.getConnection().prepareStatement(sql);
 			prep.setString(1, p.getNome());
 			prep.setString(2, p.getTelefone());
@@ -99,7 +105,6 @@ public class PessoaDao {
 			prep.setString(5, p.getEndereco());
 			prep.setString(6, p.getCep());
 			prep.setInt(7, p.getIdpessoa());
-			System.out.println(prep.toString());
 			prep.execute();
 			
 			String mensagem = "Alterado com sucesso!";
@@ -125,14 +130,14 @@ public class PessoaDao {
 		}
 		
 	}
-	
 	public Retorno excluir(Pessoa p) {
 		Conexao con = new Conexao();
 		
 		RetornoDao retornoDao = new RetornoDao();
 		
 		try {
-			String sql = "DELETE FROM pessoa" + " WHERE idpessoa = ?";
+			String sql = "DELETE FROM pessoa"
+					+ " WHERE idpessoa = ?";
 			PreparedStatement prep = con.getConnection().prepareStatement(sql);
 			prep.setInt(1, p.getIdpessoa());
 			prep.execute();
@@ -162,11 +167,10 @@ public class PessoaDao {
 	}
 	
 	public Pessoa consultar(int id) {
-		//return lista;
-		Pessoa p= new Pessoa();
+		Pessoa p = new Pessoa();
 		Conexao con = new Conexao();
 		try {
-			String sql = "SELECT * FROM pessoa WHERE idpessoa= " + id;
+			String sql = "SELECT * FROM pessoa WHERE idPessoa = "+ id;
 			Statement sta = con.getConnection().createStatement();
 			ResultSet res = sta.executeQuery(sql);
 			if (res.next()) {
@@ -184,5 +188,4 @@ public class PessoaDao {
 		con.desconecta();
 		return p;
 	}
-	
 }

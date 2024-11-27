@@ -34,19 +34,23 @@ public class PessoaAPI extends HttpServlet {
 		
 		int id = 0;
 		try {
-			id = Integer.parseInt( request.getPathInfo().substring(1));
+			//pega o id passado por parametro 
+			id = Integer.parseInt(request.getPathInfo().substring(1));
+			
 		} catch (Exception e) {
+			// TODO: handle exception
 		}
+				
+		String pesquisa = request.getParameter("pesquisa");
 		
 		String resposta;
 		if (id==0) {
 			//listar todos
-			resposta = gson.toJson(pdao.listar());
+			resposta = gson.toJson(pdao.listar(pesquisa));
 		} else {
 			//consultar apenas 1
 			resposta = gson.toJson(pdao.consultar(id));
 		}
-		
 		response.setHeader("content-type", "application/json");
 		response.getWriter().print(resposta);
 	}
@@ -55,57 +59,65 @@ public class PessoaAPI extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//pega o body da requisiçao
+		//pega o body da request
 		String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		
-		//converte o body p obj java
+		//converte o body para um objeto Java
 		Gson gson = new Gson();
-		Pessoa p = gson.fromJson(body, Pessoa.class);
+		Pessoa p = gson.fromJson(body,  Pessoa.class);
 		
 		//salva a nova pessoa
 		PessoaDao pdao = new PessoaDao();
-		Retorno retorno = pdao.inserir(p);
+//		pdao.inserir(p);
 		
-		//envia resposta
 		
-		String resposta = gson.toJson(retorno);
+		
+		//envia a resposta
+		String resposta = gson.toJson(pdao.inserir(p));
 		response.setHeader("content-type", "application/json");
 		response.getWriter().print(resposta);
-		
 	}
 	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//pega o body da requisição
+		//pega o body da request
 		String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		
-		//converte o body para um obj java
+		//converte o body para um objeto Java
 		Gson gson = new Gson();
-		Pessoa p = gson.fromJson(body, Pessoa.class);
+		Pessoa p = gson.fromJson(body,  Pessoa.class);
 		
 		//pega o id passado por parametro
 		int id = 0;
 		try {
-			id = Integer.parseInt( request.getPathInfo().substring(1));
+			id = Integer.parseInt(request.getPathInfo().substring(1));
+			
 		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		p.setIdpessoa(id);
 		
-		//salva 
+		//salva a nova pessoa
 		PessoaDao pdao = new PessoaDao();
-		Retorno retorno = pdao.alterar(p);
+		pdao.alterar(p);
+				
 		
-		//envia resposta
-		String resposta = gson.toJson(retorno);
+		//envia a resposta
+		String resposta = gson.toJson(pdao.alterar(p));
 		response.setHeader("content-type", "application/json");
-		response.getWriter().print(resposta);
+		response.getWriter().print(resposta);		
+		
+		
 	}
+	
 	
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//pega o id passado por parametro
 		int id = 0;
 		try {
-			id = Integer.parseInt( request.getPathInfo().substring(1));
+			id = Integer.parseInt(request.getPathInfo().substring(1));
+					
 		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		
 		//exclui a nova pessoa
@@ -113,12 +125,13 @@ public class PessoaAPI extends HttpServlet {
 		Pessoa p = new Pessoa();
 		Gson gson = new Gson();
 		p.setIdpessoa(id);
-		Retorno retorno = pdao.excluir(p);
+		pdao.excluir(p);
 		
-		//envia a resposta
-		String resposta = gson.toJson(retorno);
+		//evia resposta
+		
+		String resposta = gson.toJson(pdao.excluir(p));
 		response.setHeader("content-type", "application/json");
-		response.getWriter().print(resposta);
+		response.getWriter().print(resposta);	
 	}
 
 }
