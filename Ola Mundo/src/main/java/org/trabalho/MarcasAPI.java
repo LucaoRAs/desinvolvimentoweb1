@@ -1,4 +1,4 @@
-package org.libertas;
+package org.trabalho;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,16 +11,16 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 
 /**
- * Servlet implementation class PessoaAPI
+ * Servlet implementation class MarcasAPI
  */
-//@WebServlet("/PessoaAPI/*")
-public class PessoaAPI extends HttpServlet {
+//@WebServlet("/MarcasAPI/*")
+public class MarcasAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PessoaAPI() {
+    public MarcasAPI() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,7 +29,7 @@ public class PessoaAPI extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PessoaDao pdao = new PessoaDao();
+		MarcasDao mdao = new MarcasDao();
 		Gson gson = new Gson();
 		
 		int id = 0;
@@ -46,10 +46,10 @@ public class PessoaAPI extends HttpServlet {
 		String resposta;
 		if (id==0) {
 			//listar todos
-			resposta = gson.toJson(pdao.listar(pesquisa));
+			resposta = gson.toJson(mdao.listar(pesquisa));
 		} else {
 			//consultar apenas 1
-			resposta = gson.toJson(pdao.consultar(id));
+			resposta = gson.toJson(mdao.consultar(id));
 		}
 		response.setHeader("content-type", "application/json");
 		response.getWriter().print(resposta);
@@ -64,16 +64,16 @@ public class PessoaAPI extends HttpServlet {
 		
 		//converte o body para um objeto Java
 		Gson gson = new Gson();
-		Pessoa p = gson.fromJson(body,  Pessoa.class);
+		Marcas m = gson.fromJson(body,  Marcas.class);
 		
 		//salva a nova pessoa
-		PessoaDao pdao = new PessoaDao();
+		MarcasDao mdao = new MarcasDao();
 //		pdao.inserir(p);
 		
 		
 		
 		//envia a resposta
-		String resposta = gson.toJson(pdao.inserir(p));
+		String resposta = gson.toJson(mdao.inserir(m));
 		response.setHeader("content-type", "application/json");
 		response.getWriter().print(resposta);
 	}
@@ -84,7 +84,7 @@ public class PessoaAPI extends HttpServlet {
 		
 		//converte o body para um objeto Java
 		Gson gson = new Gson();
-		Pessoa p = gson.fromJson(body,  Pessoa.class);
+		Marcas m = gson.fromJson(body,  Marcas.class);
 		
 		//pega o id passado por parametro
 		int id = 0;
@@ -94,15 +94,15 @@ public class PessoaAPI extends HttpServlet {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		p.setIdpessoa(id);
+		m.setId(id);
 		
 		//salva a nova pessoa
-		PessoaDao pdao = new PessoaDao();
-		pdao.alterar(p);
+		MarcasDao mdao = new MarcasDao();
+		mdao.alterar(m);
 				
 		
 		//envia a resposta
-		String resposta = gson.toJson(pdao.alterar(p));
+		String resposta = gson.toJson(mdao.alterar(m));
 		response.setHeader("content-type", "application/json");
 		response.getWriter().print(resposta);		
 		
@@ -121,17 +121,18 @@ public class PessoaAPI extends HttpServlet {
 		}
 		
 		//exclui a nova pessoa
-		PessoaDao pdao = new PessoaDao();
-		Pessoa p = new Pessoa();
+		MarcasDao mdao = new MarcasDao();
+		Marcas m = new Marcas();
 		Gson gson = new Gson();
-		p.setIdpessoa(id);
-		pdao.excluir(p);
+		m.setId(id);
+		mdao.excluir(m);
 		
 		//evia resposta
 		
-		String resposta = gson.toJson(pdao.excluir(p));
+		String resposta = gson.toJson(mdao.excluir(m));
 		response.setHeader("content-type", "application/json");
 		response.getWriter().print(resposta);	
 	}
-
 }
+	
+	

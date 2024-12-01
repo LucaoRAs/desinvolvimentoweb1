@@ -20,13 +20,13 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <description></description>
-    <display-name>MarcaAPI</display-name>
-    <servlet-name>MarcaAPI</servlet-name>
-    <servlet-class>org.trabalho.MarcaAPI</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MarcaAPI</servlet-name>
-    <url-pattern>/MarcaAPI</url-pattern>
-  </servlet-mapping>
+    <servlet-name>MarcasAPI</servlet-name>
+    <servlet-class>org.trabalho.MarcasAPI</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>MarcasAPI</servlet-name>
+    <url-pattern>/MarcasAPI/*</url-pattern>
+</servlet-mapping>
+
 </web-app>

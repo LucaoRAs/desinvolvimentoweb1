@@ -1,37 +1,36 @@
-package org.libertas;
+package org.trabalho;
 
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedList;
 
-public class PessoaDao {
+public class MarcasDao {
 	//private static LinkedList<Pessoa> lista = new LinkedList<Pessoa>();
 	
-	public void salvar(Pessoa p) {
-		if (p.getIdpessoa()>0) {
-			alterar(p);
+	public void salvar(Marcas m) {
+		if (m.getId()>0) {
+			alterar(m);
 		}else {
-			inserir(p);
+			inserir(m);
 		}
 	}
 	
-	public Retorno inserir(Pessoa p) {
+	public Retorno inserir(Marcas m) {
 		//lista.add(p);
 		//abre a conexao com o bd
 		Conexao con = new Conexao();
 		
 		RetornoDao retornoDao = new RetornoDao();
 		try {
-			String sql = "INSERT INTO pessoa (nome, telefone, email, cidade, endereco, cep)"
-					+ " VALUES (?,?,?,?,?,?)";
+			String sql = "INSERT INTO marca (nome, descricao, pais_origem, ano_fundacao, website)"
+					+ " VALUES (?,?,?,?,?)";
 			PreparedStatement prep = con.getConnection().prepareStatement(sql);
-			prep.setString(1,  p.getNome());
-			prep.setString(2,  p.getTelefone());
-			prep.setString(3,  p.getEmail());
-			prep.setString(4,  p.getCidade());
-			prep.setString(5,  p.getEndereco());
-			prep.setString(6,  p.getCep());
+			prep.setString(1,  m.getNome());
+			prep.setString(2,  m.getDescricao());
+			prep.setString(3,  m.getPais_origem());
+			prep.setString(4,  m.getAno_fundacao());
+			prep.setString(5,  m.getWebsite());
 			prep.execute();
 			
 			String mensagem = "Inserido com sucesso!";
@@ -56,12 +55,12 @@ public class PessoaDao {
 			return retorno;
 		}
 	}
-	public LinkedList<Pessoa> listar(String pesquisa) {
+	public LinkedList<Marcas> listar(String pesquisa) {
 		//return lista;
-		LinkedList<Pessoa> lista = new LinkedList<Pessoa>();
+		LinkedList<Marcas> lista = new LinkedList<Marcas>();
 		Conexao con = new Conexao();
 		try {
-			String sql = "SELECT * FROM pessoa "
+			String sql = "SELECT * FROM marca "
 					+ "WHERE nome like ? "
 					+ "ORDER BY nome";
 			PreparedStatement sta = con.getConnection().prepareStatement(sql);
@@ -69,15 +68,14 @@ public class PessoaDao {
 			
 			ResultSet res = sta.executeQuery();
 			while (res.next()) {
-				Pessoa p = new Pessoa();
-				p.setIdpessoa(res.getInt("idpessoa"));
-				p.setNome(res.getString("nome"));
-				p.setTelefone(res.getString("telefone"));
-				p.setEmail(res.getString("email"));
-				p.setCidade(res.getString("cidade"));
-				p.setEndereco(res.getString("endereco"));
-				p.setCep(res.getString("cep"));
-				lista.add(p);
+				Marcas m = new Marcas();
+				m.setId(res.getInt("id"));
+				m.setNome(res.getString("nome"));
+				m.setDescricao(res.getString("descricao"));
+				m.setPais_origem(res.getString("pais_origem"));
+				m.setAno_fundacao(res.getString("ano_fundacao"));
+				m.setWebsite(res.getString("website"));
+				lista.add(m);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,25 +84,24 @@ public class PessoaDao {
 		return lista;
 	}
 	
-	public Retorno alterar(Pessoa p) {
+	public Retorno alterar(Marcas m) {
 		Conexao con = new Conexao();
 		
 		RetornoDao retornoDao = new RetornoDao();
 		
 		try {
-			String sql = "UPDATE pessoa SET"
-					+" nome = ?, telefone = ?," 
-					+ "email = ? , cidade = ?,"
-					+ "endereco = ? , cep = ? "
-					+ "WHERE idpessoa = ?";
+			String sql = "UPDATE marca SET"
+					+" nome = ?, descricao = ?," 
+					+ "pais_origem = ? , ano_fundacao = ?,"
+					+ "website = ? "
+					+ "WHERE id = ?";
 			PreparedStatement prep = con.getConnection().prepareStatement(sql);
-			prep.setString(1, p.getNome());
-			prep.setString(2, p.getTelefone());
-			prep.setString(3, p.getEmail());
-			prep.setString(4, p.getCidade());
-			prep.setString(5, p.getEndereco());
-			prep.setString(6, p.getCep());
-			prep.setInt(7, p.getIdpessoa());
+			prep.setString(1, m.getNome());
+			prep.setString(2, m.getDescricao());
+			prep.setString(3, m.getPais_origem());
+			prep.setString(4, m.getAno_fundacao());
+			prep.setString(5, m.getWebsite());
+			prep.setInt(7, m.getId());
 			prep.execute();
 			
 			String mensagem = "Alterado com sucesso!";
@@ -130,16 +127,16 @@ public class PessoaDao {
 		}
 		
 	}
-	public Retorno excluir(Pessoa p) {
+	public Retorno excluir(Marcas m) {
 		Conexao con = new Conexao();
 		
 		RetornoDao retornoDao = new RetornoDao();
 		
 		try {
-			String sql = "DELETE FROM pessoa"
-					+ " WHERE idpessoa = ?";
+			String sql = "DELETE FROM marca"
+					+ " WHERE id = ?";
 			PreparedStatement prep = con.getConnection().prepareStatement(sql);
-			prep.setInt(1, p.getIdpessoa());
+			prep.setInt(1, m.getId());
 			prep.execute();
 			
 			String mensagem = "Excluido com sucesso!";
@@ -166,26 +163,25 @@ public class PessoaDao {
 		
 	}
 	
-	public Pessoa consultar(int id) {
-		Pessoa p = new Pessoa();
+	public Marcas consultar(int id) {
+		Marcas m = new Marcas();
 		Conexao con = new Conexao();
 		try {
-			String sql = "SELECT * FROM pessoa WHERE idPessoa = "+ id;
+			String sql = "SELECT * FROM marca WHERE id = "+ id;
 			Statement sta = con.getConnection().createStatement();
 			ResultSet res = sta.executeQuery(sql);
 			if (res.next()) {
-				p.setIdpessoa(res.getInt("idpessoa"));
-				p.setNome(res.getString("nome"));
-				p.setTelefone(res.getString("telefone"));
-				p.setEmail(res.getString("email"));
-				p.setCidade(res.getString("cidade"));
-				p.setEndereco(res.getString("endereco"));
-				p.setCep(res.getString("cep"));
+				m.setId(res.getInt("id"));
+				m.setNome(res.getString("nome"));
+				m.setDescricao(res.getString("descricao"));
+				m.setPais_origem(res.getString("pais_origem"));
+				m.setAno_fundacao(res.getString("ano_fundacao"));
+				m.setWebsite(res.getString("website"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		con.desconecta();
-		return p;
+		return m;
 	}
 }

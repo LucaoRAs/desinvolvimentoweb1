@@ -1,4 +1,4 @@
-package org.libertas;
+package org.trabalho;
 
 public class Retorno {
 	private Boolean resposta;
