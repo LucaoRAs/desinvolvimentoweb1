@@ -1,4 +1,4 @@
-package org.trabalho;
+package org.libertas;
 
 public class RetornoDao {
 

@@ -1,4 +1,4 @@
-package org.trabalho;
+package org.libertas;
 
 public class Retorno {
 	private Boolean resposta;
@@ -26,6 +26,8 @@ public class Retorno {
 	public Retorno(boolean resposta, String mensagem) {
 		this.resposta = resposta;
 		this.mensagem = mensagem;
+		
+		
 	}
 	
 
